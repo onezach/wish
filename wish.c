@@ -1,4 +1,4 @@
-# Author: Zach Potter
+// Author: Zach Potter
 
 #include <fcntl.h>
 #include <string.h>
