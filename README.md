@@ -12,4 +12,4 @@ There is also batch mode which is comparable to running a bash script. One simpl
 
     ./wish batch.txt
 
-All wish needs is to be compiled and executed, and it can do most of a normal shell would otherwise be able to do. Future changes will enhance wish to be more customizable on the user end and more robust overall. 
+All wish needs is to be compiled and executed, and it can do most of a normal shell would otherwise be able to do. Future changes will enhance wish with better streamlined code and more customizability for the user.
