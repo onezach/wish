@@ -73,7 +73,6 @@ void wish(char *paths[100], int *pc, char *in) {
     if (strcmp(command,"hist") != 0) { fprintf(hist, "%s\n", h); }
     fclose(hist);
 
-
     int args_count = 0;
     char *args[10];
     while ((args[args_count] = strsep(&tot," "))) { args_count++; }
