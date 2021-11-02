@@ -8,8 +8,18 @@ Wish comes with two modes of operation: Interactive and Batch. Interactive mode 
     hello world 2
     wish> 
  
-There is also batch mode which is comparable to running a bash script. One simply needs to call wish, passing the batch file as an argument
+Users also have the capability to view their wish history with the hist command. 
+
+    wish> clear
+    wish> hist
+    loop 2 echo hello world $loop
+    clear
+    wish>
+
+Users can also clear their history using the chist command. 
+
+Finally, there is batch mode which is comparable to running a bash script. One simply needs to call wish, passing the batch file as an argument. 
 
     ./wish batch.txt
 
-All wish needs is to be compiled and executed, and it can do most of a normal shell would otherwise be able to do. Future changes will enhance wish with better streamlined code and more customizability for the user.
+All wish needs is to be compiled and executed, and it can do most of a normal shell would otherwise be able to do. Future changes will enhance wish with better streamlined code and more customizability for the user. Revamping to this README will also happen soon. 

@@ -7,6 +7,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+void _path(int *pathsCount, char *paths[100], int *args_count, char *args[10]) {
+    *pathsCount = 0; 
+    for (int i = 0; i < *args_count; i++) {
+        paths[i] = args[i];
+        *pathsCount += 1;
+    }
+}
+
 void wish(char *paths[100], int *pc, char *in) {
 
     int *pathsCount = pc;
@@ -52,8 +60,19 @@ void wish(char *paths[100], int *pc, char *in) {
     if (endred) { return; }
     br2[size+diff] = '\0';
     char *tot = strdup(br2);
+    char *h = strdup(br2);
 
     char *command = strsep(&tot," ");
+
+    FILE *hist; hist = fopen("./.hist", "a");
+    if (hist == NULL) {
+        char error_message[30] = "An error has occurred\n";
+        write(STDERR_FILENO, error_message, strlen(error_message));
+        return;
+    }
+    if (strcmp(command,"hist") != 0) { fprintf(hist, "%s\n", h); }
+    fclose(hist);
+
 
     int args_count = 0;
     char *args[10];
@@ -66,6 +85,43 @@ void wish(char *paths[100], int *pc, char *in) {
             return;
         }
         exit(0); 
+    }
+
+    if (strcmp(command,"chist") == 0) {
+        if (args_count != 0) {
+            char error_message[30] = "An error has occurred\n";
+            write(STDERR_FILENO, error_message, strlen(error_message));
+            return;
+        }
+        hist = fopen("./.hist", "w");
+        if (hist == NULL) {
+            char error_message[30] = "An error has occurred\n";
+            write(STDERR_FILENO, error_message, strlen(error_message));
+            return;
+        }
+        fclose(hist);
+        return;
+    }
+
+    if (strcmp(command,"hist") == 0) {
+        if (args_count != 0) {
+            char error_message[30] = "An error has occurred\n";
+            write(STDERR_FILENO, error_message, strlen(error_message));
+            return;
+        }
+        hist = fopen("./.hist", "r");
+        if (hist == NULL) {
+            char error_message[30] = "An error has occurred\n";
+            write(STDERR_FILENO, error_message, strlen(error_message));
+            return;
+        }
+        char c = fgetc(hist);
+        while (c != EOF) {
+            printf("%c",c);
+            c = fgetc(hist);
+        }
+        fclose(hist);
+        return;
     }
     
     int loop = 0;
@@ -96,14 +152,7 @@ void wish(char *paths[100], int *pc, char *in) {
         args_count -= 2;
     }
     
-    if (strcmp(command, "path") == 0) {
-        *pathsCount = 0; 
-        for (int i = 0; i < args_count; i++) {
-            paths[i] = args[i];
-            *pathsCount += 1;
-        }
-        return;
-    }
+    if (strcmp(command, "path") == 0) { _path(pathsCount, paths, &args_count, args); return; }
 
     if (strcmp(command, "cd") == 0) {
         if (args_count != 1 || chdir(args[0]) != 0)  {
@@ -191,8 +240,6 @@ void wish(char *paths[100], int *pc, char *in) {
             (void)wait(NULL);
         }
     }
-
-
 }
 
 int main(int argc, char *argv[]) {
@@ -225,7 +272,6 @@ int main(int argc, char *argv[]) {
     } 
 
     else { // interactive mode
-
         while (1) {
             printf("wish> ");
             getline(&in, &bufsize, stdin);
